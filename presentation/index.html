@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLO &amp; SLA Framework</title>
+  <link rel="stylesheet" href="reveal.js/reset.css">
+  <link rel="stylesheet" href="reveal.js/reveal.css">
+  <link rel="stylesheet" href="reveal.js/theme/white.css">
+  <style>
+    :root {
+      --accent: #1f5fae;
+      --accent-soft: #e8f0fb;
+      --good: #2e7d32;
+      --bad: #c62828;
+      --muted: #5f6b7a;
+      --r-heading-color: #12324f;
+      --r-link-color: var(--accent);
+      --r-main-font-size: 34px;
+    }
+    .reveal h1, .reveal h2 { text-transform: none; letter-spacing: -0.01em; }
+    .reveal h2 { font-size: 1.6em; margin-bottom: 0.6em; }
+    .reveal .subtitle { color: var(--muted); font-size: 0.8em; }
+    .reveal .small { font-size: 0.72em; color: var(--muted); }
+    .reveal .accent { color: var(--accent); font-weight: 600; }
+    .reveal .good { color: var(--good); font-weight: 600; }
+    .reveal .bad { color: var(--bad); font-weight: 600; }
+
+    /* Cards */
+    .cards { display: flex; gap: 0.6em; justify-content: center; align-items: stretch; }
+    .card {
+      flex: 1; background: var(--accent-soft); border-radius: 12px;
+      padding: 0.7em 0.7em; font-size: 0.82em; text-align: left;
+      border-top: 6px solid var(--accent);
+    }
+    .card h3 { font-size: 1.25em; margin: 0 0 0.3em; color: var(--accent); text-transform: none; }
+    .card p { margin: 0.2em 0; }
+    .card .big { font-size: 1.6em; font-weight: 700; color: #12324f; }
+
+    /* Flow of steps */
+    .flow { display: flex; align-items: center; justify-content: center; gap: 0.25em; flex-wrap: nowrap; }
+    .flow .step {
+      background: var(--accent); color: #fff; border-radius: 10px;
+      padding: 0.5em 0.5em; font-size: 0.62em; min-width: 5.8em; text-align: center; line-height: 1.25;
+    }
+    .flow .step b { display: block; font-size: 1.5em; }
+    .flow .step.last { background: #12324f; }
+    .flow .arrow { color: var(--muted); font-size: 0.8em; }
+
+    /* Tables */
+    .reveal table { font-size: 0.78em; margin: 0 auto; border-collapse: collapse; }
+    .reveal table th { background: var(--accent); color: #fff; padding: 0.35em 0.7em; border: none; }
+    .reveal table td { padding: 0.35em 0.7em; border-bottom: 1px solid #d6dde6; }
+    .reveal table tr:nth-child(even) td { background: #f6f8fb; }
+
+    /* Budget bar */
+    .budget { width: 80%; margin: 0.6em auto; height: 1.1em; background: #e6e9ee; border-radius: 8px; overflow: hidden; display: flex; }
+    .budget span { display: block; height: 100%; }
+    .budget .used1 { width: 20%; background: #f2a33a; }
+    .budget .used2 { width: 30%; background: #e5712f; }
+    .budget .used3 { width: 5%; background: #c62828; }
+
+    /* Stack */
+    .stack { display: flex; flex-direction: column; gap: 0.25em; align-items: center; }
+    .stack div { border-radius: 10px; padding: 0.4em 1em; font-size: 0.8em; width: 85%; text-align: left; }
+    .stack .sli { background: #e8f0fb; }
+    .stack .slo { background: #c9dcf5; }
+    .stack .eb  { background: #fde7d4; }
+    .stack .sla { background: #12324f; color: #fff; }
+
+    .reveal ul.checklist { list-style: none; font-size: 0.9em; text-align: left; margin-left: 0; }
+    .reveal ul.checklist li { list-style: none; }
+    .checklist li { margin: 0.4em 0; padding-left: 1.4em; position: relative; }
+    .checklist li::before { content: "✔"; color: var(--good); position: absolute; left: 0; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <!-- 1. Title -->
+  <section>
+    <h1>SLO &amp; SLA Framework</h1>
+    <p class="subtitle">A simple, standard way to define, measure and promise service reliability</p>
+    <p class="small">Based on the Google SRE Workbook — <em>Implementing SLOs</em></p>
+    <aside class="notes">
+      Goal of this session: agree on one simple way for every team to define and manage reliability,
+      and get decisions on a few open points at the end.
+    </aside>
+  </section>
+
+  <!-- 2. Why -->
+  <section>
+    <h2>Why this framework</h2>
+    <div class="cards">
+      <div class="card fragment"><h3>Alignment</h3><p>Aligns how services and products are delivered across teams.</p></div>
+      <div class="card fragment"><h3>Data-driven decisions</h3><p>Gives a shared, measurable basis for balancing reliability and new features.</p></div>
+      <div class="card fragment"><h3>Ready to scale</h3><p>One repeatable method as services and the dependencies between teams grow.</p></div>
+    </div>
+    <aside class="notes">
+      Framed as what the framework enables, not as a statement about how teams work today.
+    </aside>
+  </section>
+
+  <!-- 3. Four words -->
+  <section>
+    <h2>Four words</h2>
+    <div class="stack">
+      <div class="sli"><b>SLI</b> — what we measure: <em>good events ÷ total events</em><br><span class="small">"VM creates that were running within 5 min ÷ all VM creates"</span></div>
+      <div class="slo"><b>SLO</b> — the internal target<br><span class="small">"99% over a rolling 4 weeks"</span></div>
+      <div class="eb"><b>Error budget</b> — the failure we're allowed = 100% − SLO<br><span class="small">"1% of creates may fail or be slow"</span></div>
+      <div class="sla"><b>SLA</b> — the promise to consumers, looser than the SLO<br><span class="small" style="color:#cfd8e3">"97% per month, P1 response 15 min"</span></div>
+    </div>
+    <aside class="notes">
+      SLI is a percentage, always the same shape, so dashboards and alerts are reusable.
+      SLA is always looser than SLO, so we react before we break a promise. 100% is the wrong target.
+    </aside>
+  </section>
+
+  <!-- 4. Error budget -->
+  <section>
+    <h2>The error budget decides</h2>
+    <p style="font-size:0.85em">SLO 99.5% over 4 weeks → budget = <b>3 h 22 min</b> of downtime</p>
+    <div class="budget"><span class="used1"></span><span class="used2"></span><span class="used3"></span></div>
+    <p class="small">Storage blip 40 min · bad upgrade 1 h · node failure 10 min → 55% used</p>
+    <div class="cards" style="margin-top:0.8em">
+      <div class="card" style="border-top-color:var(--good)"><h3 class="good">Budget left</h3><p>Ship features, upgrade, experiment. Unused budget is wasted.</p></div>
+      <div class="card" style="border-top-color:var(--bad)"><h3 class="bad">Budget gone</h3><p>Pause risky changes, fix reliability until it recovers.</p></div>
+    </div>
+    <aside class="notes">
+      This is the core idea: data, not opinion, decides between features and reliability.
+      The rule is written down in an error budget policy that the team agrees to upfront.
+    </aside>
+  </section>
+
+  <!-- 5. Seven steps -->
+  <section>
+    <h2>Seven steps</h2>
+    <div class="flow">
+      <div class="step"><b>1</b>Users<br>who &amp; what</div><span class="arrow">▶</span>
+      <div class="step"><b>2</b>SLIs<br>what to measure</div><span class="arrow">▶</span>
+      <div class="step"><b>3</b>SLOs<br>starter targets</div><span class="arrow">▶</span>
+      <div class="step"><b>4</b>Agree<br>&amp; write down</div><span class="arrow">▶</span>
+      <div class="step"><b>5</b>Watch<br>dashboard + alerts</div><span class="arrow">▶</span>
+      <div class="step"><b>6</b>Review<br>&amp; improve</div><span class="arrow">▶</span>
+      <div class="step last"><b>7</b>SLA<br>when stable</div>
+    </div>
+    <p class="small" style="margin-top:1.2em">Steps 2–6 repeat · first SLO doesn't have to be perfect — measure, agree, improve</p>
+    <aside class="notes">
+      1: list users and 3-5 key tasks. 2: max 5 SLIs from a ready-made menu. 3: measure last 4 weeks, round down.
+      4: three sign-offs + error budget policy. 5: dashboard and burn-rate alerts. 6: monthly then quarterly review.
+      7: SLA only after about a quarter of meeting the SLO.
+    </aside>
+  </section>
+
+  <!-- 6. Three paths -->
+  <section>
+    <h2>Works for new and existing services</h2>
+    <div class="cards">
+      <div class="card"><h3>New</h3><p>Not in production yet</p><p class="small">Steps 1–2 during design · measure before go-live · SLO from first 4 weeks</p></div>
+      <div class="card"><h3>Running, no SLOs</h3><p>Monitoring only, "100% uptime" assumed</p><p class="small">Steps 1–6 using existing metrics · 2–4 weeks part-time</p></div>
+      <div class="card"><h3>SLO without teeth</h3><p>Has a target nobody acts on</p><p class="small">Start at Step 4 — agree the policy · 1–2 weeks</p></div>
+    </div>
+    <aside class="notes">These three starting points come straight from the SRE Workbook.</aside>
+  </section>
+
+  <!-- 7. What a team produces -->
+  <section>
+    <h2>What each team produces</h2>
+    <div class="cards">
+      <div class="card"><h3>SLO document</h3><p class="big">1–2 pages</p><p>What we measure, our targets, why</p></div>
+      <div class="card"><h3>Error budget policy</h3><p class="big">Template</p><p>Department defaults — fill in the blanks</p></div>
+      <div class="card"><h3>SLA</h3><p class="big">1 page</p><p>The promise to consumers — after ~1 quarter</p></div>
+    </div>
+    <p class="small" style="margin-top:1em">Templates and a full worked example are in the repo · stored in git next to the service code</p>
+    <aside class="notes">Deliberately light: three short documents, templates based on Google's published examples.</aside>
+  </section>
+
+  <!-- 8. Example -->
+  <section>
+    <h2>Example — VM-as-a-Service</h2>
+    <table>
+      <thead><tr><th>User task</th><th>SLI</th><th>Measured</th><th>SLO</th><th>SLA</th></tr></thead>
+      <tbody>
+        <tr><td>Create a VM</td><td>Running within 5 min</td><td>99.29%</td><td>99%</td><td>97%</td></tr>
+        <tr><td>Create a VM</td><td>Running within 2.5 min</td><td>p90 = 2 m 10 s</td><td>90%</td><td>—</td></tr>
+        <tr><td>My VM keeps running</td><td>VM reachable</td><td>99.71%</td><td>99.5%</td><td>99%</td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:1em">Dependencies (cluster × storage × network) cap uptime at ≈ 99.75% → 99.9% not realistic today<br><em>Illustrative numbers</em></p>
+    <aside class="notes">
+      Shows the flow: measure, round down to SLO, SLA looser still. The dependency check turned an unrealistic
+      target into a visible investment decision instead of a broken promise.
+    </aside>
+  </section>
+
+  <!-- 9. Done when -->
+  <section>
+    <h2>A service is "done" when…</h2>
+    <ul class="checklist">
+      <li class="fragment">SLOs are approved as <b>right for the users</b></li>
+      <li class="fragment">The people running it agree they're <b>achievable</b> without heroics</li>
+      <li class="fragment">Everyone commits to <b>using the error budget</b> to make decisions</li>
+      <li class="fragment">There's a <b>review process</b> to keep improving them</li>
+    </ul>
+    <aside class="notes">The four conditions from the SRE Workbook. Without them, an SLO is just another report.</aside>
+  </section>
+
+  <!-- 10. Decisions -->
+  <section>
+    <h2>What we need from you</h2>
+    <table>
+      <thead><tr><th>Decision</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td>Adopt as the standard</td><td>Yes — for services other teams depend on</td></tr>
+        <tr><td>Back the error budget policy</td><td>Teams pause feature work when budget is gone</td></tr>
+        <tr><td>Escalation point for disagreements</td><td>Department manager</td></tr>
+        <tr><td>Consequence of a missed SLA</td><td>Explanation + fix plan in 5 days; escalate after 2 months</td></tr>
+        <tr><td>Tooling</td><td>Open source on existing Prometheus/Grafana (Pyrra or Sloth)</td></tr>
+      </tbody>
+    </table>
+    <aside class="notes">The policy is the key one — without management backing, teams can't actually pause features.</aside>
+  </section>
+
+  <!-- 11. Rollout -->
+  <section>
+    <h2>Rollout</h2>
+    <div class="flow">
+      <div class="step"><b>M1–2</b>Pilot<br>VMaaS + cluster provisioning</div><span class="arrow">▶</span>
+      <div class="step"><b>M3</b>Adjust<br>from lessons</div><span class="arrow">▶</span>
+      <div class="step"><b>M4–6</b>Roll out<br>services others depend on</div><span class="arrow">▶</span>
+      <div class="step last"><b>Ongoing</b>Reviews<br>first SLAs after a quarter</div>
+    </div>
+    <p class="small" style="margin-top:1.2em">Monthly overview for management: SLO met/missed, budget left, trend</p>
+  </section>
+
+  <!-- 12. Questions -->
+  <section>
+    <h2>Questions?</h2>
+    <p style="font-size:0.85em">Framework repo: <code>sla-framework/</code> — start with <code>README.md</code></p>
+    <p class="small">
+      SRE Workbook — Implementing SLOs: <a href="https://sre.google/workbook/implementing-slos/">sre.google/workbook/implementing-slos</a><br>
+      Example SLO document: <a href="https://sre.google/workbook/slo-document/">sre.google/workbook/slo-document</a><br>
+      Example error budget policy: <a href="https://sre.google/workbook/error-budget-policy/">sre.google/workbook/error-budget-policy</a>
+    </p>
+  </section>
+
+</div>
+</div>
+
+<script src="reveal.js/reveal.js"></script>
+<script src="reveal.js/plugin/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'slide',
+    width: 1280,
+    height: 720,
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
