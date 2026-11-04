@@ -5,6 +5,8 @@
 A simple, repeatable way for any team to say **how reliable its service should be**, **measure it**,
 and **act on it**. It works for new services and for services already running.
 
+🎤 **[View the stakeholder presentation](https://idan-maimon.github.io/sla-framework/presentation/)** — opens in the browser
+
 ## The whole framework on one page
 
 ```mermaid
@@ -57,6 +59,6 @@ These four conditions come straight from the SRE Workbook:
 | [`templates/`](templates/) | Copy these: SLO document, error budget policy, SLA | — |
 | [`examples/vm-as-a-service-kubevirt/`](examples/vm-as-a-service-kubevirt/) | A filled-in example | 10 min |
 | [`for-managers.md`](for-managers.md) | Department manager — what this is, what to decide | 3 min |
-| [`presentation/index.html`](presentation/index.html) | Stakeholder slides (reveal.js, works offline) — open in a browser | 12 slides |
+| [`presentation/`](presentation/) | Stakeholder slides — **[open live](https://idan-maimon.github.io/sla-framework/presentation/)**, or open `index.html` locally (works offline) | 12 slides |
 | [`reference/`](reference/) | Optional depth: availability math, decision matrix, links | — |
 | [`ideas/`](ideas/) | Open questions and future ideas | — |
