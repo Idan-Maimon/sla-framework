@@ -36,6 +36,8 @@
     .card h3 { font-size: 1.25em; margin: 0 0 0.3em; color: var(--accent); text-transform: none; }
     .card p { margin: 0.2em 0; }
     .card .big { font-size: 1.6em; font-weight: 700; color: #12324f; }
+    .card .eg { margin-top: 0.6em; padding: 0.4em 0.6em; background: #fff; border-left: 4px solid var(--accent); border-radius: 6px; font-size: 0.85em; }
+    .card .eg b { color: var(--accent); }
 
     /* Flow of steps */
     .flow { display: flex; align-items: center; justify-content: center; gap: 0.25em; flex-wrap: nowrap; }
@@ -168,12 +170,22 @@
   <section>
     <h2>What each team produces</h2>
     <div class="cards">
-      <div class="card"><h3>SLO document</h3><p class="big">1–2 pages</p><p>What we measure, our targets, why</p></div>
-      <div class="card"><h3>Error budget policy</h3><p class="big">Template</p><p>Department defaults — fill in the blanks</p></div>
-      <div class="card"><h3>SLA</h3><p class="big">1 page</p><p>The promise to consumers — after ~1 quarter</p></div>
+      <div class="card"><h3>SLO document</h3><p class="big">1–2 pages</p>
+        <p>Defines what we measure from the user's point of view, the target for each measurement, and why we chose it.</p>
+        <p class="eg"><b>KubeVirt platform:</b> 99.9% of requests to a tenant's cluster API succeed, over 4 weeks.</p></div>
+      <div class="card"><h3>Error budget policy</h3><p class="big">Template</p>
+        <p>Agreed in advance: what the team does when the allowed failure is used up.</p>
+        <p class="eg"><b>KubeVirt platform:</b> budget gone → hub and KV cluster upgrades freeze; tenants can still create and scale clusters.</p></div>
+      <div class="card"><h3>SLA</h3><p class="big">1 page</p>
+        <p>The promise to tenants. Looser than the SLO, published after about a quarter of meeting it.</p>
+        <p class="eg"><b>KubeVirt platform:</b> you choose your worker upgrade window; workers never fall more than two minor versions behind.</p></div>
     </div>
-    <p class="small" style="margin-top:1em">Templates and a full worked example are in the repo · stored in git next to the service code</p>
-    <aside class="notes">Deliberately light: three short documents, templates based on Google's published examples.</aside>
+    <p class="small" style="margin-top:1em">Templates and the full KubeVirt platform example are in the repo · stored in git next to the service code</p>
+    <aside class="notes">
+      Deliberately light: three short documents, templates based on Google's published examples.
+      Examples come from the HCP + KubeVirt platform documents in examples/hcp-kubevirt-platform.
+      The SLA example is a non-numeric commitment because its targets wait for real data.
+    </aside>
   </section>
 
   <!-- 8. Example -->
