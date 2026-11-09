@@ -74,6 +74,55 @@
     .reveal ul.checklist li { list-style: none; }
     .checklist li { margin: 0.4em 0; padding-left: 1.4em; position: relative; }
     .checklist li::before { content: "✔"; color: var(--good); position: absolute; left: 0; }
+
+    /* ---- Slide 5: steps walkthrough ---- */
+    .track { position: relative; display: flex; justify-content: space-between; width: 92%; margin: 0 auto 0.5em; }
+    .track-line { position: absolute; top: 0.95em; left: 3%; right: 3%; height: 6px; background: #dfe5ee; border-radius: 3px; }
+    .track-fill { height: 100%; width: 0; background: var(--accent); border-radius: 3px; transition: width 0.6s ease; }
+    .node { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 4em; }
+    .node span { width: 1.9em; height: 1.9em; line-height: 1.9em; border-radius: 50%; background: #fff; border: 4px solid #c7d1de;
+                 color: #8796a8; font-weight: 700; font-size: 0.8em; transition: all 0.4s ease; }
+    .node em { font-style: normal; font-size: 0.5em; color: #8796a8; margin-top: 0.3em; transition: color 0.4s; }
+    .node.done span { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .node.done em { color: #12324f; }
+    .node.current span { background: #12324f; border-color: #12324f; color: #fff; transform: scale(1.25); box-shadow: 0 0 0 6px rgba(31,95,174,0.18); }
+    .node.current em { color: #12324f; font-weight: 700; }
+
+    .panels { display: grid; }
+    .panel { grid-area: 1 / 1; opacity: 0; transform: translateY(14px); transition: opacity 0.45s ease, transform 0.45s ease; pointer-events: none; }
+    .panel.active { opacity: 1; transform: none; }
+    .ptitle { font-size: 0.74em; margin: 0.2em 0 0.45em; color: #12324f; }
+    .cols { display: flex; align-items: stretch; gap: 0.3em; }
+    .col { flex: 1; background: var(--accent-soft); border-radius: 12px; padding: 0.5em 0.6em; text-align: left; }
+    .col h4 { margin: 0 0 0.45em; font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .arrow2 { align-self: center; color: var(--accent); font-size: 0.8em; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.3em; }
+    .chip, .doc, .none { display: inline-block; font-size: 0.56em; padding: 0.3em 0.7em; border-radius: 999px; font-weight: 600; }
+    .chip.sm { font-size: 0.9em; padding: 0.1em 0.5em; }
+    .chip::before { content: ""; display: inline-block; width: 0.6em; height: 0.6em; border-radius: 50%; background: #fff; margin-right: 0.4em; vertical-align: middle; opacity: 0.85; }
+    .r-so  { background: #1f5fae; color: #fff; }
+    .r-dev { background: #2e7d32; color: #fff; }
+    .r-ops { background: #e5712f; color: #fff; }
+    .r-arc { background: #6a4c93; color: #fff; }
+    .r-usr { background: #00838f; color: #fff; }
+    .r-dm  { background: #12324f; color: #fff; }
+    .doc { background: #fff; color: #12324f; border: 2px solid #c9dcf5; border-radius: 8px; }
+    .doc::before { content: "📄 "; }
+    .doc.key { border-color: var(--accent); }
+    .none { background: transparent; color: var(--muted); border: 2px dashed #c7d1de; }
+    .hint { font-size: 0.5em; color: var(--muted); margin: 0.5em 0 0; }
+    .ptitle .hint { font-size: 0.75em; }
+    .legend { margin-top: 0.6em; font-size: 0.85em; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4em 0.9em; color: var(--muted); }
+    .legend .chip { font-size: 0.55em; }
+    .legend span.lt { font-size: 0.55em; }
+
+    /* pop-in animation for chips when a panel becomes active */
+    .panel.active .chip, .panel.active .doc, .panel.active .none { animation: pop 0.45s ease both; }
+    .panel.active .col:nth-of-type(1) .chips > * { animation-delay: 0.10s; }
+    .panel.active .col:nth-of-type(3) .chips > * { animation-delay: 0.35s; }
+    .panel.active .col:nth-of-type(5) .chips > * { animation-delay: 0.60s; }
+    @keyframes pop { from { opacity: 0; transform: scale(0.6) translateY(8px); } to { opacity: 1; transform: none; } }
+    .step-driver { display: none; }
   </style>
 </head>
 <body>
@@ -95,9 +144,9 @@
   <section>
     <h2>Why this framework</h2>
     <div class="cards">
-      <div class="card fragment"><h3>Alignment</h3><p>Aligns how services and products are delivered across teams.</p></div>
-      <div class="card fragment"><h3>Data-driven decisions</h3><p>Gives a shared, measurable basis for balancing reliability and new features.</p></div>
-      <div class="card fragment"><h3>Ready to scale</h3><p>One repeatable method as services and the dependencies between teams grow.</p></div>
+      <div class="card"><h3>Alignment</h3><p>Aligns how services and products are delivered across teams.</p></div>
+      <div class="card"><h3>Data-driven decisions</h3><p>Gives a shared, measurable basis for balancing reliability and new features.</p></div>
+      <div class="card"><h3>Ready to scale</h3><p>One repeatable method as services and the dependencies between teams grow.</p></div>
     </div>
     <aside class="notes">
       Framed as what the framework enables, not as a statement about how teams work today.
@@ -135,38 +184,122 @@
     </aside>
   </section>
 
-  <!-- 5. Seven steps -->
-  <section>
-    <h2>Seven steps</h2>
-    <div class="flow">
-      <div class="step"><b>1</b>Users<br>who &amp; what</div><span class="arrow">▶</span>
-      <div class="step"><b>2</b>SLIs<br>what to measure</div><span class="arrow">▶</span>
-      <div class="step"><b>3</b>SLOs<br>starter targets</div><span class="arrow">▶</span>
-      <div class="step"><b>4</b>Agree<br>&amp; write down</div><span class="arrow">▶</span>
-      <div class="step"><b>5</b>Watch<br>dashboard + alerts</div><span class="arrow">▶</span>
-      <div class="step"><b>6</b>Review<br>&amp; improve</div><span class="arrow">▶</span>
-      <div class="step last"><b>7</b>SLA<br>when stable</div>
+  <!-- 5. Seven steps — who does what -->
+  <section id="steps-slide">
+    <h2 style="margin-bottom:0.3em">Seven steps — who does what</h2>
+
+    <div class="track">
+      <div class="track-line"><div class="track-fill"></div></div>
+      <div class="node" data-i="0"><span>1</span><em>Users</em></div>
+      <div class="node" data-i="1"><span>2</span><em>SLIs</em></div>
+      <div class="node" data-i="2"><span>3</span><em>SLOs</em></div>
+      <div class="node" data-i="3"><span>4</span><em>Agree</em></div>
+      <div class="node" data-i="4"><span>5</span><em>Watch</em></div>
+      <div class="node" data-i="5"><span>6</span><em>Review</em></div>
+      <div class="node" data-i="6"><span>7</span><em>SLA</em></div>
     </div>
-    <p class="small" style="margin-top:1.2em">Steps 2–6 repeat · first SLO doesn't have to be perfect — measure, agree, improve</p>
+
+    <div class="panels">
+      <div class="panel" data-i="0">
+        <p class="ptitle"><b>Step 1 · Users</b> — who uses the service, and what do they do with it?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-so">Service owner</span><span class="chip r-dev">Team engineers</span></div><p class="hint">interview <span class="chip r-usr sm">Users</span></p></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc">Users &amp; key tasks</span><span class="doc">Service diagram</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="none">No sign-off yet</span></div><p class="hint">checked at Step 4</p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="1">
+        <p class="ptitle"><b>Step 2 · SLIs</b> — what do we measure to know users are happy?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-dev">Developers</span><span class="chip r-ops">On-call / SRE</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc">≤ 5 SLIs</span><span class="doc">Queries / probes</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="none">No sign-off yet</span></div><p class="hint">reviewed by <span class="chip r-arc sm">Architect</span> at Step 4</p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="2">
+        <p class="ptitle"><b>Step 3 · SLOs</b> — what target is good enough?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-dev">Developers</span><span class="chip r-ops">On-call / SRE</span></div><p class="hint">guided by <span class="chip r-so sm">Service owner</span></p></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc">Starter targets</span><span class="doc">Error budgets</span><span class="doc">Rationale</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="none">No sign-off yet</span></div><p class="hint">signed at Step 4</p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="3">
+        <p class="ptitle"><b>Step 4 · Agree</b> — does everyone accept the targets and the consequences?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-so">Service owner</span></div><p class="hint">leads the agreement</p></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc key">SLO document</span><span class="doc key">Error budget policy</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="chip r-so">Service owner</span><span class="chip r-dev">Developers</span><span class="chip r-ops">On-call / SRE</span></div><p class="hint">reviewed by <span class="chip r-arc sm">Architect</span> · disputes → <span class="chip r-dm sm">Dept. manager</span></p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="4">
+        <p class="ptitle"><b>Step 5 · Watch</b> — are we on track right now?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-ops">On-call / SRE</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc">SLO dashboard</span><span class="doc">Error budget alerts</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="none">No sign-off</span></div><p class="hint">whole team checks it weekly</p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="5">
+        <p class="ptitle"><b>Step 6 · Review</b> — are the targets still right?</p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-so">Service owner</span><span class="chip r-dev">Developers</span><span class="chip r-ops">On-call / SRE</span></div><p class="hint">monthly, then quarterly</p></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc">New SLO doc version</span><span class="doc">Change log entry</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="chip r-so">Service owner</span><span class="chip r-dev">Developers</span><span class="chip r-ops">On-call / SRE</span></div><p class="hint">same three sign-offs as Step 4</p></div>
+        </div>
+      </div>
+
+      <div class="panel" data-i="6">
+        <p class="ptitle"><b>Step 7 · SLA</b> — what do we promise consumers? <span class="hint">(after ~1 quarter of meeting the SLO)</span></p>
+        <div class="cols">
+          <div class="col"><h4>Who does it</h4><div class="chips"><span class="chip r-so">Service owner</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Produces</h4><div class="chips"><span class="doc key">One-page SLA</span><span class="doc">Monthly SLA report</span></div></div>
+          <div class="arrow2">➜</div>
+          <div class="col"><h4>Approved by</h4><div class="chips"><span class="chip r-so">Service owner</span><span class="chip r-usr">Consumer reps</span></div><p class="hint">then published in the service catalog</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="chip r-so">Service owner</span> <span class="lt">team manager</span></span>
+      <span><span class="chip r-dev">Developers</span> <span class="lt">build it</span></span>
+      <span><span class="chip r-ops">On-call / SRE</span> <span class="lt">run it</span></span>
+      <span><span class="chip r-arc">Architect</span> <span class="lt">reviews</span></span>
+      <span><span class="chip r-usr">Users / consumers</span></span>
+      <span><span class="chip r-dm">Dept. manager</span> <span class="lt">escalation</span></span>
+    </div>
+
+    <!-- invisible drivers: each → press reveals the next step -->
+    <span class="fragment step-driver"></span><span class="fragment step-driver"></span><span class="fragment step-driver"></span>
+    <span class="fragment step-driver"></span><span class="fragment step-driver"></span><span class="fragment step-driver"></span>
+
     <aside class="notes">
-      1: list users and 3-5 key tasks. 2: max 5 SLIs from a ready-made menu. 3: measure last 4 weeks, round down.
-      4: three sign-offs + error budget policy. 5: dashboard and burn-rate alerts. 6: monthly then quarterly review.
-      7: SLA only after about a quarter of meeting the SLO.
+      Press → to walk through the steps. For each: who does the work, what they produce, who signs it off.
+      Steps 1–3 are working steps; the formal sign-off happens once, at Step 4, by three parties
+      (service owner, developers, on-call) with an architect reviewing. The department manager is only
+      involved when the three parties disagree. Step 7 adds consumer representatives.
     </aside>
   </section>
 
-  <!-- 6. Three paths -->
-  <section>
-    <h2>Works for new and existing services</h2>
-    <div class="cards">
-      <div class="card"><h3>New</h3><p>Not in production yet</p><p class="small">Steps 1–2 during design · measure before go-live · SLO from first 4 weeks</p></div>
-      <div class="card"><h3>Running, no SLOs</h3><p>Monitoring only, "100% uptime" assumed</p><p class="small">Steps 1–6 using existing metrics · 2–4 weeks part-time</p></div>
-      <div class="card"><h3>SLO without teeth</h3><p>Has a target nobody acts on</p><p class="small">Start at Step 4 — agree the policy · 1–2 weeks</p></div>
-    </div>
-    <aside class="notes">These three starting points come straight from the SRE Workbook.</aside>
-  </section>
-
-  <!-- 7. What a team produces -->
+  <!-- 6. What a team produces -->
   <section>
     <h2>What each team produces</h2>
     <div class="cards">
@@ -188,7 +321,7 @@
     </aside>
   </section>
 
-  <!-- 8. Example -->
+  <!-- 7. Example -->
   <section>
     <h2>Example — VM-as-a-Service</h2>
     <table>
@@ -206,55 +339,33 @@
     </aside>
   </section>
 
-  <!-- 9. Done when -->
+  <!-- 8. Done when -->
   <section>
     <h2>A service is "done" when…</h2>
     <ul class="checklist">
-      <li class="fragment">SLOs are approved as <b>right for the users</b></li>
-      <li class="fragment">The people running it agree they're <b>achievable</b> without heroics</li>
-      <li class="fragment">Everyone commits to <b>using the error budget</b> to make decisions</li>
-      <li class="fragment">There's a <b>review process</b> to keep improving them</li>
+      <li>SLOs are approved as <b>right for the users</b></li>
+      <li>The people running it agree they're <b>achievable</b> without heroics</li>
+      <li>Everyone commits to <b>using the error budget</b> to make decisions</li>
+      <li>There's a <b>review process</b> to keep improving them</li>
     </ul>
     <aside class="notes">The four conditions from the SRE Workbook. Without them, an SLO is just another report.</aside>
   </section>
 
-  <!-- 10. Decisions -->
+  <!-- 9. More info -->
   <section>
-    <h2>What we need from you</h2>
-    <table>
-      <thead><tr><th>Decision</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        <tr><td>Adopt as the standard</td><td>Yes — for services other teams depend on</td></tr>
-        <tr><td>Back the error budget policy</td><td>Teams pause feature work when budget is gone</td></tr>
-        <tr><td>Escalation point for disagreements</td><td>Department manager</td></tr>
-        <tr><td>Consequence of a missed SLA</td><td>Explanation + fix plan in 5 days; escalate after 2 months</td></tr>
-        <tr><td>Tooling</td><td>Open source on existing Prometheus/Grafana (Pyrra or Sloth)</td></tr>
-      </tbody>
-    </table>
-    <aside class="notes">The policy is the key one — without management backing, teams can't actually pause features.</aside>
-  </section>
-
-  <!-- 11. Rollout -->
-  <section>
-    <h2>Rollout</h2>
-    <div class="flow">
-      <div class="step"><b>M1–2</b>Pilot<br>VMaaS + cluster provisioning</div><span class="arrow">▶</span>
-      <div class="step"><b>M3</b>Adjust<br>from lessons</div><span class="arrow">▶</span>
-      <div class="step"><b>M4–6</b>Roll out<br>services others depend on</div><span class="arrow">▶</span>
-      <div class="step last"><b>Ongoing</b>Reviews<br>first SLAs after a quarter</div>
+    <h2>More info</h2>
+    <div class="cards">
+      <div class="card"><h3>The framework</h3>
+        <p><a href="https://github.com/Idan-Maimon/sla-framework">Repository</a> — start with the README</p>
+        <p><a href="https://github.com/Idan-Maimon/sla-framework/blob/main/guide/2-the-steps.md">Step-by-step guide</a></p>
+        <p><a href="https://github.com/Idan-Maimon/sla-framework/tree/main/templates">Templates</a></p></div>
+      <div class="card"><h3>Example</h3>
+        <p><a href="https://github.com/Idan-Maimon/sla-framework/tree/main/examples/hcp-kubevirt-platform">HCP + KubeVirt platform</a> — SLO document, error budget policy, SLA draft</p></div>
+      <div class="card"><h3>Google SRE</h3>
+        <p><a href="https://sre.google/workbook/implementing-slos/">Implementing SLOs</a></p>
+        <p><a href="https://sre.google/workbook/slo-document/">Example SLO document</a></p>
+        <p><a href="https://sre.google/workbook/error-budget-policy/">Example error budget policy</a></p></div>
     </div>
-    <p class="small" style="margin-top:1.2em">Monthly overview for management: SLO met/missed, budget left, trend</p>
-  </section>
-
-  <!-- 12. Questions -->
-  <section>
-    <h2>Questions?</h2>
-    <p style="font-size:0.85em">Framework repo: <code>sla-framework/</code> — start with <code>README.md</code></p>
-    <p class="small">
-      SRE Workbook — Implementing SLOs: <a href="https://sre.google/workbook/implementing-slos/">sre.google/workbook/implementing-slos</a><br>
-      Example SLO document: <a href="https://sre.google/workbook/slo-document/">sre.google/workbook/slo-document</a><br>
-      Example error budget policy: <a href="https://sre.google/workbook/error-budget-policy/">sre.google/workbook/error-budget-policy</a>
-    </p>
   </section>
 
 </div>
@@ -271,6 +382,21 @@
     height: 720,
     plugins: [ RevealNotes ]
   });
+  // Slide 5: drive the step walkthrough from (invisible) fragments
+  function updateSteps() {
+    const slide = document.getElementById('steps-slide');
+    if (!slide) return;
+    const i = slide.querySelectorAll('.step-driver.visible').length;   // 0..6
+    slide.querySelectorAll('.node').forEach(n => {
+      const k = +n.dataset.i;
+      n.classList.toggle('done', k < i);
+      n.classList.toggle('current', k === i);
+    });
+    slide.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', +p.dataset.i === i));
+    slide.querySelector('.track-fill').style.width = (i / 6 * 100) + '%';
+  }
+  ['ready', 'slidechanged', 'fragmentshown', 'fragmenthidden'].forEach(e => Reveal.on(e, updateSteps));
+
 </script>
 </body>
 </html>

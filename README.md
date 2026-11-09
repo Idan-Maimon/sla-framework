@@ -60,6 +60,6 @@ These four conditions come straight from the SRE Workbook:
 | [`examples/vm-as-a-service-kubevirt/`](examples/vm-as-a-service-kubevirt/) | A short filled-in example (illustrative numbers) | 10 min |
 | [`examples/hcp-kubevirt-platform/`](examples/hcp-kubevirt-platform/) | A real service in progress: hosted OpenShift clusters on KubeVirt (Path A) | 15 min |
 | [`for-managers.md`](for-managers.md) | Department manager — what this is, what to decide | 3 min |
-| [`presentation/`](presentation/) | Stakeholder slides — **[open live](https://idan-maimon.github.io/sla-framework/presentation/)**, or open `index.html` locally (works offline) | 12 slides |
+| [`presentation/`](presentation/) | Stakeholder slides — **[open live](https://idan-maimon.github.io/sla-framework/presentation/)**, or open `index.html` locally (works offline) | 9 slides |
 | [`reference/`](reference/) | Optional depth: availability math, decision matrix, links | — |
 | [`ideas/`](ideas/) | Open questions and future ideas | — |
