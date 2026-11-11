@@ -13,11 +13,10 @@
 | **Approver** | `<section leader>` |
 | **Approval date** | |
 | **Revisit date** | `<monthly for the first quarter, then quarterly>` |
-| **Path** | A (new) / B (running, no SLO) / C (SLO without teeth) |
 
 ## 1. Service overview
 
-*Filled in at Step 1.*
+*Filled in at Step 1 (authors).*
 
 `<2–4 sentences: what the service does, for whom, and its main parts.>`
 
@@ -38,7 +37,7 @@
 
 ## 2. SLIs and SLOs
 
-*SLIs filled in at Step 2, SLOs at Step 3.*
+*Category, SLI and specification filled in at Step 1; implementation and SLO at Step 2 (authors).*
 
 All SLOs use a **4-week rolling window** unless stated otherwise (rare operations may use a quarter).
 
@@ -61,7 +60,7 @@ Keep **five or fewer** rows.
 
 ## 3. Rationale
 
-*Filled in at Step 3.*
+*Filled in at Step 2 (authors).*
 
 `<Where the numbers come from: "rounded down from measured 4-week performance (dates)", or
 "ad hoc — no data yet, revisit after 4 weeks". Mention the dependency check and any user feedback.
@@ -70,7 +69,7 @@ experience, say so.>`
 
 ## 4. Error budget
 
-*Filled in at Step 3.*
+*Filled in at Step 2 (authors).*
 
 | SLO | Budget (window) |
 |---|---|
@@ -81,7 +80,7 @@ How we respond when the budget is used up: see the [error budget policy](error-b
 
 ## 5. Clarifications and caveats
 
-*Filled in at Step 4.*
+*Filled in at Step 2 (authors).*
 
 - `<What is excluded from the SLIs, e.g. quota rejections, load tests, consumer-initiated stops>`
 - `<Known gaps in measurement and the plan to fix them>`
@@ -89,7 +88,7 @@ How we respond when the budget is used up: see the [error budget policy](error-b
 
 ## 6. Change log
 
-*Updated at every Step 6 review.*
+*Updated at every Step 5 review (authors + approver).*
 
 | Version | Date | Change | Approved by |
 |---|---|---|---|
