@@ -24,8 +24,9 @@ you'll measure the wrong things.
 **Do:**
 1. Pick **one service**. If your product has several parts, start with the most important one and add the others later.
 2. Write down **who the users are**: people, teams or systems whose happiness you're optimising.
-3. List the **3–5 most important things they do** with the service (the workbook calls these *critical user journeys*).
-   Example: *"create a VM"*, *"my VM keeps running"*, *"resize my VM"*.
+3. List the **operations** the service provides: typically *create*, *change*, *upgrade*,
+   *delete*, and *keeps running* in between. Then ask users which ones matter most to them
+   (the workbook calls these *critical user journeys*).
 4. Draw a **simple diagram**: main components, how requests flow, and the critical dependencies.
 
 **Tip:** ask 2–3 users *"tell me about the last time this service let you down"*. Their answers
@@ -40,18 +41,37 @@ show you which tasks matter and how much delay or failure they will tolerate.
 **Why:** an SLI is how you know, with numbers, whether users are getting what they need.
 
 **Do:**
-1. Decide which **type** each part of your service is (see the [SLI menu](3-sli-menu.md)):
-   *request-driven*, *provisioning*, *running resource*, *pipeline* or *storage*.
-2. For each key task from Step 1, pick 1–2 SLIs from the menu. **Keep it to 5 or fewer in total.**
+1. Take the **operations** from Step 1. For each one, users ask only two questions:
+   **did it work?** and **how long did it take?** Each question is one candidate SLI.
+
+   | Operation | Did it work? | How long did it take? |
+   |---|---|---|
+   | **Create** a VM | creates that reached Running ÷ valid creates | creates Running within 5 min ÷ valid creates |
+   | **Change** a VM | changes applied ÷ valid changes | changes applied within 2 min ÷ valid changes |
+   | **Upgrade** the platform | upgrades with no manual step ÷ all upgrades | upgrades done within 1.5 h ÷ all upgrades |
+   | **Delete** a VM | deletes completed and freed ÷ all deletes | deletes done within 10 min ÷ all deletes |
+   | VM keeps **running** | minutes reachable ÷ minutes it should run | disk I/O faster than 10 ms ÷ all I/O |
+
+   The [SLI menu](3-sli-menu.md) has ready-made wording for each type of operation.
+2. **Choose five or fewer.** Keep the candidates where users hurt most when they fail, and that
+   happen often enough to measure. Write down why you left the others out.
+   > VM service: *create · create speed · keeps running*. Delete rarely hurts anyone → later.
 3. Write each SLI in two parts:
    - **Specification**, in plain words: *"proportion of VM create requests that reach Running within 5 min"*
    - **Implementation**, how you measure it: *"from metric X in Prometheus, ÷ metric Y, excluding quota rejections"*
 4. **Use data you already have.** The workbook says: if logs exist today but probes would take
    weeks to build, use the logs. You can improve the measurement later.
-5. For latency-type SLIs, consider **two thresholds**, one for typical requests and one for the slow tail
+5. For "how long" SLIs, consider **two thresholds**, one for typical requests and one for the slow tail
    (e.g. 90% < 2 min **and** 99% < 5 min).
+6. **Rare operations** (upgrades, deletes) produce few events, so one failure swings the percentage.
+   Use a longer window (a quarter) or a canary that runs the operation regularly.
 
-**Done when:** each SLI has a specification and a working query/probe → SLI table in the SLO document.
+**Not measured by SLOs:** security, cost, how easy the service is to change, and similar
+qualities. They are checked by pipeline checks and architecture reviews, not by counting good
+and bad events. See the [cloud architecture principles](https://github.com/Idan-Maimon/cloud-architecture-principles).
+
+**Done when:** each chosen SLI has a specification and a working query/probe, and the left-out
+candidates are listed with a reason → SLI table in the SLO document.
 
 ---
 
