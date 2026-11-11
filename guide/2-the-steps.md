@@ -200,6 +200,8 @@ authors think users would suffer first). The authors adjust and resend. If it ca
    | Met | Unhappy | SLO too loose or measuring the wrong thing → **tighten** it or **fix the SLI** |
    | Missed | Happy | SLO too strict → **loosen** it |
    | Missed | Unhappy | Real problem → follow the **error budget policy**, fix reliability |
+   | Missed, nothing happens | Don't notice | Not worth measuring → move the row to **Left out, for now**, with the reason |
+   | Missed, nothing happens | Unhappy | SLO without teeth → fill in the **error budget policy** (Step 2) and **send for approval** (Step 3) |
 
    If running the service takes a lot of manual work (toil), fix that as well. See the full matrix in [reference](../reference/decision-matrix.md).
 3. **Improve the measurement** if it misses real problems: measure closer to the user (load balancer
