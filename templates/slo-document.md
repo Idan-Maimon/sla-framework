@@ -14,7 +14,7 @@
 | **Approval date** | |
 | **Revisit date** | `<monthly for the first quarter, then quarterly>` |
 
-## 1. Service overview
+## Service overview
 
 *Filled in at Step 1 (authors).*
 
@@ -22,63 +22,67 @@
 
 **Users:** `<who>`
 
-**Operations** (critical user journeys):
+**Requirements:**
 
-| Operation | What the user does |
-|---|---|
-| `<Create>` | `<e.g. request a VM and receive it running>` |
-| `<Change>` | |
-| `<Upgrade>` | |
-| `<Delete>` | |
+| ID | Requirement | What the user does |
+|---|---|---|
+| R1 | Provision | `<e.g. request a VM and receive it running>` |
+| R2 | Modify | |
+| R3 | Upgrade | |
+| R4 | Decommission | |
 
 **Diagram:** `<link or a small mermaid diagram: components, request flow, critical dependencies>`
 
-**Critical dependencies:** `<service → their SLO/SLA if known>`
+**Critical dependencies:**
 
-## 2. SLIs and SLOs
+| Dependency | Needed for | Owner | Has an SLO? |
+|---|---|---|---|
+| `<service>` | `<R1, S2…>` | `<team>` | `<yes: 99.9% / not yet>` |
+
+## SLIs and SLOs
 
 *Category, SLI and specification filled in at Step 1; implementation and SLO at Step 2 (authors).*
 
-All SLOs use a **4-week rolling window** unless stated otherwise (rare operations may use a quarter).
+All SLOs use a **4-week rolling window** unless stated otherwise (rare requirements may use a quarter).
 
-**Category** is an operation from Section 1, or **Availability** for the service while it runs.
+**Category** is a requirement (R1…), or **Availability** for the service while it runs.
 Keep **five or fewer** rows.
 
-| Category | SLI | Specification (plain words) | Implementation (how measured) | SLO |
-|---|---|---|---|---|
-| `<Create>` | Success | `<proportion of valid create requests that reach Ready>` | `<query ÷ query; exclusions>` | `<99%>` |
-| `<Create>` | Speed | `<proportion of valid creates Ready within X>` | | `<90% < X; 99% < Y>` |
-| `<Upgrade>` | Duration | `<proportion of upgrades done within X>` | | |
-| Availability | Uptime | `<proportion of minutes the service is up and reachable>` | | |
-| Availability | Response time | `<proportion of requests answered within X>` | | |
+| ID | Category | SLI | Specification (plain words) | Implementation (how measured) | SLO |
+|---|---|---|---|---|---|
+| S1 | `<R1 Provision>` | Success | `<proportion of valid provision requests that reach Ready>` | `<query ÷ query; exclusions>` | `<99%>` |
+| S2 | `<R1 Provision>` | Speed | `<proportion of valid provisions Ready within X>` | | `<90% < X; 99% < Y>` |
+| S3 | `<R3 Upgrade>` | Success | `<proportion of upgrades completed with no manual step>` | | |
+| S4 | Availability | Uptime | `<proportion of minutes the service is up and reachable>` | | |
+| S5 | Availability | Response time | `<proportion of requests answered within X>` | | |
 
 **Left out, for now:**
 
 | Category | SLI | Why |
 |---|---|---|
-| `<Delete>` | `<Success>` | `<e.g. low user pain; revisit at next review>` |
+| `<R4 Decommission>` | `<Success>` | `<e.g. low user pain; revisit at next review>` |
 
-## 3. Rationale
+## Rationale
 
 *Filled in at Step 2 (authors).*
 
-`<Where the numbers come from: "rounded down from measured 4-week performance (dates)", or
-"ad hoc — no data yet, revisit after 4 weeks". Mention the dependency check and any user feedback.
+`<Per S-row, where the numbers come from: "rounded down from measured 4-week performance (dates)",
+or "ad hoc — no data yet, revisit after 4 weeks". Mention the dependency check and any user feedback.
 Be honest: if a target was chosen rather than measured, or has not yet been checked against user
 experience, say so.>`
 
-## 4. Error budget
+## Error budget
 
 *Filled in at Step 2 (authors).*
 
-| SLO | Budget (window) |
-|---|---|
-| `<99% create success>` | `<1% of creates ≈ N creates>` |
-| `<99.5% uptime>` | `<0.5% ≈ 3 h 22 min in 4 weeks>` |
+| ID | SLO | Budget (window) |
+|---|---|---|
+| `<S1>` | `<99% provision success>` | `<1% of provisions ≈ N>` |
+| `<S4>` | `<99.5% uptime>` | `<0.5% ≈ 3 h 22 min in 4 weeks>` |
 
 How we respond when the budget is used up: see the [error budget policy](error-budget-policy.md).
 
-## 5. Clarifications and caveats
+## Clarifications and caveats
 
 *Filled in at Step 2 (authors).*
 
@@ -86,7 +90,7 @@ How we respond when the budget is used up: see the [error budget policy](error-b
 - `<Known gaps in measurement and the plan to fix them>`
 - `<Aspirational SLOs, if any. Tracked, but no policy actions attached>`
 
-## 6. Change log
+## Change log
 
 *Updated at every Step 5 review (authors + approver).*
 

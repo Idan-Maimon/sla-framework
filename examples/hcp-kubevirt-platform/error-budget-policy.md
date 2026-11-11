@@ -6,10 +6,10 @@
 
 | | |
 |---|---|
-| **Authors** | Platform architect |
-| **Reviewers** | `<platform tech lead>` · `<SRE>` |
-| **Approvers** | `<platform service owner>` · `<dev lead>` · `<on-call lead>` |
-| **Approval date** / **Next review** | — / with the SLO document |
+| **Authors** | Platform architect · `<platform service owner>` |
+| **Reviewers** | `<dev lead>` · `<on-call lead>` |
+| **Approver** | `<section leader>` |
+| **Approval date** / **Revisit date** | — / with the SLO document |
 | **Applies to** | SLOs in the [SLO document](slo-document.md) |
 
 ## Service overview
@@ -57,7 +57,7 @@ In addition to the default 20% rule:
 - **Zone loss.** Any event that takes down a whole zone (KV cluster, seed cluster or storage) gets
   a post-incident review, even if the budget impact was small. Surviving zone loss is the core design promise.
 - **Empty warm pool.** If a pool is empty when a tenant request arrives, the incident is reviewed
-  even if no SLO was missed. It is the early warning for SLI-3/4.
+  even if no SLO was missed. It is the early warning for S3/S4.
 
 ## Escalation
 

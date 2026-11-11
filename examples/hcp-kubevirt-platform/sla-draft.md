@@ -1,6 +1,6 @@
 # Service Level Agreement — Hosted OpenShift Clusters on KubeVirt
 
-> **DRAFT. Do not publish.** Under the framework, the SLA comes at Step 7, after the SLOs have been
+> **DRAFT. Do not publish.** Under the framework, the SLA comes when ready, after the SLOs have been
 > met for about a quarter. This draft exists so the structure and the non-numeric commitments can
 > be discussed early. **Targets are deliberately left open** and will be set from the measured SLOs.
 
