@@ -41,7 +41,7 @@
 
 All SLOs use a **4-week rolling window** unless stated otherwise (rare operations may use a quarter).
 
-**Category** is an operation from §1, or **Availability** for the service while it runs.
+**Category** is an operation from Section 1, or **Availability** for the service while it runs.
 Keep **five or fewer** rows.
 
 | Category | SLI | Specification (plain words) | Implementation (how measured) | SLO |

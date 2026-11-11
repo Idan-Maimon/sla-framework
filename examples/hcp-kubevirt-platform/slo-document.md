@@ -81,7 +81,7 @@ creates, scales and upgrades are low-volume events and a 4-week ratio would swin
 | CUJ-5 Upgrade my cluster | **Correctness** (operation success) | Proportion of upgrade runs (control plane, or one zone of a worker roll) that complete without manual intervention and without breaching SLI-1 during the run | Upgrade workflow outcome + HostedCluster/NodePool version conditions. A run counts as bad if it needed a human step, ended in the DLQ, or SLI-1 burned more than 2% of its budget during the run. | **95%** |
 
 Five SLIs is the workbook's maximum. API latency, deletion and live-migration transparency are
-deliberately left for later reviews (§5).
+deliberately left for later reviews (Section 5).
 
 ### Canary cluster
 

@@ -12,7 +12,7 @@
 | 2 · SLIs | ✅ Draft | 5 SLIs from the menu: API availability, worker uptime, cluster creation, scale-up, upgrade success. |
 | 3 · SLOs | 🟡 Ad hoc | No production data yet. Thresholds for creation and scale-up to come from lab benchmarks, then from 4 weeks / 1 quarter of real data. |
 | 4 · Agree | ⬜ To do | SLO document + error budget policy ready for the three sign-offs |
-| 5 · Watch | ⬜ To do | Needs the measurement gaps closed (SLO doc §5) and the canary cluster |
+| 5 · Watch | ⬜ To do | Needs the measurement gaps closed (SLO doc Section 5) and the canary cluster |
 | 6 · Review | ⬜ To do | Monthly for the first quarter |
 | 7 · SLA | 📝 Draft only | Structure and non-numeric commitments drafted. Targets wait for the provisional quarter. |
 

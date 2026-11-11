@@ -22,8 +22,8 @@ right (Steps 4–5).
 
 | Step | What | Owner |
 |---|---|---|
-| **1. Create the SLO document** | §1 Service overview · §2 SLIs: what to measure | Authors |
-| **2. Build and measure for SLO targets** | §2 implementation and targets · §3 Rationale · §4 Error budget · §5 Caveats · error budget policy | Authors |
+| **1. Create the SLO document** | Section 1 Service overview · Section 2 SLIs: what to measure | Authors |
+| **2. Build and measure for SLO targets** | Section 2 implementation and targets · Section 3 Rationale · Section 4 Error budget · Section 5 Caveats · error budget policy | Authors |
 | **3. Send for approval** | Reviewers confirm, approver approves | Approver |
 | **4. Watch** | Dashboard and alerts | On-call |
 | **5. Review and improve** | Update the document: new version, new revisit date | Authors + approver |
@@ -34,7 +34,7 @@ Steps 4 and 5 are a loop: watch, review, update the document, watch again.
 
 ## Step 1 — Create the SLO document
 
-**Fills in:** §1 Service overview · §2 SLIs (category, SLI, specification) · **Owner:** authors
+**Fills in:** Section 1 Service overview · Section 2 SLIs (category, SLI, specification) · **Owner:** authors
 
 **Why:** SLOs exist to keep *users* happy. If you don't know who they are and what they do,
 you'll measure the wrong things.
@@ -71,7 +71,7 @@ you'll measure the wrong things.
 
    The [SLI menu](3-sli-menu.md) has ready-made wording for each type.
 7. **Choose five or fewer rows.** Keep the ones where users hurt most when they fail, and that
-   happen often enough to measure. List the ones you left out, with a reason, in §2.
+   happen often enough to measure. List the ones you left out, with a reason, in Section 2.
    > VM service: *Create success · Create speed · Availability uptime*. Delete rarely hurts anyone → later.
 8. Write each chosen SLI's **specification** in plain words: *"proportion of VM create requests
    that reach Running within 5 min"*. For "how long" SLIs, consider **two thresholds**, one for
@@ -84,14 +84,14 @@ show you which operations matter and how much delay or failure they will tolerat
 qualities. They are checked by pipeline checks and architecture reviews, not by counting good
 and bad events. See the [cloud architecture principles](https://github.com/Idan-Maimon/cloud-architecture-principles).
 
-**Done when:** §1 is complete, and §2 has five or fewer rows with a specification each, plus the
+**Done when:** Section 1 is complete, and Section 2 has five or fewer rows with a specification each, plus the
 left-out candidates with a reason.
 
 ---
 
 ## Step 2 — Build and measure for SLO targets
 
-**Fills in:** §2 implementation and SLO · §3 Rationale · §4 Error budget · §5 Caveats ·
+**Fills in:** Section 2 implementation and SLO · Section 3 Rationale · Section 4 Error budget · Section 5 Caveats ·
 the [error budget policy](../templates/error-budget-policy.md) · **Owner:** authors
 
 **Why:** a target turns a measurement into a decision ("are we OK or not?"), and a target is only
@@ -118,7 +118,7 @@ as good as the measurement behind it.
 8. **Write the rationale, honestly.** If a target was chosen rather than measured, or nobody has
    checked it matches user experience yet, say so. Google's example does; it tells future readers
    where better evidence is needed.
-9. Write **§5**: what the measurement misses and what is excluded.
+9. Write **Section 5**: what the measurement misses and what is excluded.
 10. Fill in the **error budget policy**. The template already contains the department defaults;
     only the blanks need filling.
 
@@ -126,7 +126,7 @@ as good as the measurement behind it.
 today, record it as an **aspirational SLO** (Step 5) rather than setting a target you'll miss every day.
 
 **Done when:** every row has a working query/probe, a target, a window, an error budget and a
-rationale; §5 and the error budget policy are filled in.
+rationale; Section 5 and the error budget policy are filled in.
 
 ---
 
